@@ -1,0 +1,6 @@
+.jumbotron {
+  background-image: url("./bg.jpg");
+  background-size: contain;
+  padding: 30px !important;
+  filter: blur(50);
+}
