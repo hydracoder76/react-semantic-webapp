@@ -4,3 +4,11 @@
   padding: 30px !important;
   filter: blur(50);
 }
+
+.post-container {
+  padding-top: 20px;
+}
+
+.sidebar-subtext {
+  font-size: 60%;
+}
