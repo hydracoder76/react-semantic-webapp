@@ -1,41 +1,75 @@
 import React from 'react'
-import {
-  Container, Grid, Menu,  Input, Label, Segment
-} from 'semantic-ui-react';
+import { Container, Form, Menu,  Icon, Label, Segment } from 'semantic-ui-react';
 import Navbar from '../Navbar';
+import Sidebar from '../Sidebar';
 
 class AuthorizedView extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      activeItem: "content"
+    }
+  }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render () {
-    const activeItem = 'inbox';
+    const { activeItem } = this.state;
     return(
       <div>
-
-        <Menu vertical fixed="left" style={{padding: 0, width: 250}}>
-            <Menu.Item header as='h1'>Shareito</Menu.Item>
-            <Menu.Item>
-              <Input size='huge' icon='search' placeholder='Search mail...' />
+        <Sidebar {...this.props}></Sidebar>
+        <div style={{marginLeft: 300}}>
+          <Navbar {...this.props}></Navbar>
+          <Menu fluid widths={4} attached color="blue">
+            <Menu.Item
+              name='content'
+              active={activeItem === 'content'}
+              onClick={this.handleItemClick}
+            >
+              <Icon name="write"/>
+              Content
+            </Menu.Item>
+            <Menu.Item
+              name='analytics'
+              active={activeItem === 'analytics'}
+              onClick={this.handleItemClick}
+            >
+              <Icon name="area chart"/>
+              Analytics
+            </Menu.Item>
+            <Menu.Item
+              name='discover'
+              active={activeItem === 'discover'}
+              onClick={this.handleItemClick}
+            >
+              <Icon name="newspaper"/>
+              Discover
+            </Menu.Item>
+            <Menu.Item
+              name='schedule'
+              active={activeItem === 'schedule'}
+              onClick={this.handleItemClick}
+            >
+              <Icon name="calendar"/>
+              Schedule
             </Menu.Item>
 
-            <Menu.Item name='inbox' active={activeItem === 'inbox'} onClick={this.handleItemClick}>
-              <Label color='teal'>1</Label>
-              Inbox
-            </Menu.Item>
-
-            <Menu.Item name='spam' active={activeItem === 'spam'} onClick={this.handleItemClick}>
-              <Label>51</Label>
-              Spam
-            </Menu.Item>
-
-            <Menu.Item name='updates' active={activeItem === 'updates'} onClick={this.handleItemClick}>
-              <Label>1</Label>
-              Updates
-            </Menu.Item>
           </Menu>
-        <Navbar {...this.props}></Navbar>
-        <div className="ui fluid" style={{marginLeft: 250, marginTop: 80, background: 'tan'}}>
-          fdslfkajsdlkf
-        </div>
+          <Container text className="post-container">
+            <Form>
+              <Form.TextArea
+                name='post'
+                placeholder='What will you like to share today?'
+                rows='5'
+              />
+            <Form.Group>
+              <Form.Button primary>Schedule</Form.Button>
+              <Form.Button primary basic>Post Now</Form.Button>
+            </Form.Group>
 
+            </Form>
+          </Container>
+        </div>
       </div>
     )
   }

@@ -6,8 +6,7 @@ import {
 class AuthorizedNavbar extends React.Component {
   render () {
     return(
-      <Menu borderless fluid  fixed='top' style={{height: 80}}>
-        <Menu.Item header as='h1'>Shareito</Menu.Item>
+      <Menu borderless fluid attached="top">
         <Menu.Item
           name='features'
 
