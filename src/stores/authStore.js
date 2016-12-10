@@ -9,31 +9,38 @@ class  AuthStore {
       signUpSuccess: null,
       signInError: null,
       facebookError: null,
-      setJwt: action(function(token) {
+      setJwt: action((token) => {
         this.jwt = token;
       }),
-      setFacebookToken: action(function(token) {
+      setFacebookToken: action((token) => {
         this.facebookToken = token;
       }),
-      setSignUpError: action(function(message) {
+      setSignUpError: action((message) => {
         this.signUpError = message;
       }),
-      setSignUpSuccess: action(function(message) {
+      setSignUpSuccess: action((message) => {
         this.signUpSuccess = message;
       }),
-      setSignInError: action(function(message) {
+      setSignInError: action((message) => {
         this.signInError = message;
       }),
-      setFacebookError: action(function(message) {
+      setFacebookError: action((message) => {
         this.facebookError = message;
       }),
-      resetAllMessages: action(function() {
+      resetAllMessages: action(() => {
         transaction(() => {
           this.signUpError = null;
           this.signUpSuccess = null;
           this.signInError = null;
           this.facebookError = null;
         })
+      }),
+      setAccounts: action((accounts) => {
+        this.accounts = accounts;
+      }),
+      signOut: action(() => {
+        this.jwt = null;
+        localStorage.setItem('jwt', null);
       }),
     });
   }
