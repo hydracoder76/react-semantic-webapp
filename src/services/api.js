@@ -1,5 +1,6 @@
 import { transaction } from 'mobx'
 import authStore from '../stores/authStore';
+import accountStore from '../stores/accountStore';
 import { BASE_URL } from '../constants/authentication';
 import axios from 'axios';
 
@@ -35,8 +36,10 @@ export function signIn(formData) {
     formData
   ).then(function(response){
       let token = response.data.auth_token;
-      localStorage.setItem('jwt', token);
+      let accounts = response.data.accounts;
       authStore.setJwt(token);
+      accountStore.setAccounts(accounts);
+      localStorage.setItem('jwt', token);
   }).catch(function(error){
       let message = error.response.data.error;
       authStore.setSignInError(message);
@@ -48,7 +51,7 @@ export function facebookSignIn(token) {
    * handle facebook signup and signin
    * sends token to backend and updates view accordingly
    */
-  console.log("fb token", token);
+  // console.log("fb token", token);
   if(!token) {
     authStore.setFacebookError("Facebook login could not be completed!");
     return;
@@ -57,12 +60,12 @@ export function facebookSignIn(token) {
   axios.post(`${BASE_URL}/users/facebook_login`, {
     token
   }).then(function(response) {
-      console.log("facebook response", response.data);
+      // console.log("facebook response", response.data);
       let token = response.data.auth_token;
       localStorage.setItem('jwt', token);
       authStore.setJwt(token);
   }).catch(function(error) {
-      console.log("facebook error", error.response.data);
+      // console.log("facebook error", error.response.data);
       let message = error.response.data.error;
       authStore.setFacebookError(message);
   })
