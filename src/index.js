@@ -12,11 +12,12 @@ import App from './App';
 import IndexViewContainer from './components/IndexView';
 // Stores
 import authStore from './stores/authStore';
+import accountStore from './stores/accountStore';
 // Styles
 import './index.css';
 
 
-const stores = { authStore };
+const stores = { authStore, accountStore };
 
 ReactDOM.render(
   <Provider { ...stores }>
