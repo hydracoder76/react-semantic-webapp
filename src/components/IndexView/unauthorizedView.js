@@ -1,11 +1,12 @@
 import React from 'react'
+import { observer } from 'mobx-react';
 import {
   Button, Grid, Header,
   Icon
 } from 'semantic-ui-react';
 import Navbar from '../Navbar';
 
-class UnauthorizedView extends React.Component {
+const UnauthorizedView = observer(class UnauthorizedView extends React.Component {
   render () {
     return(
       <div>
@@ -33,6 +34,6 @@ class UnauthorizedView extends React.Component {
       </div>
     );
   }
-}
+})
 
 export default UnauthorizedView;
