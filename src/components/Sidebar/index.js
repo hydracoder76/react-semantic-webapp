@@ -8,7 +8,7 @@ class Sidebar extends React.Component {
       <Menu vertical fixed="left" style={{padding: 0, width: 300}}>
         <Menu.Item header as='h1'>Shareito</Menu.Item>
         <Menu.Item>
-          <Input size='huge' icon='search' placeholder='Search Account..' />
+          <Input icon='search' placeholder='Search Account..' />
           <List relaxed divided size='huge'>
             <List.Item>
               <Image avatar src='http://semantic-ui.com/images/avatar/small/helen.jpg' />
