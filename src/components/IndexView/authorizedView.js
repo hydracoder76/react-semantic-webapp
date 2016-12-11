@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Menu,  Icon, Label, Segment } from 'semantic-ui-react';
+import { Container, Form, Menu,  Icon} from 'semantic-ui-react';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 
