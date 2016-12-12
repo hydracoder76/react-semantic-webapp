@@ -38,9 +38,8 @@ class  AuthStore {
       setAccounts: action((accounts) => {
         this.accounts = accounts;
       }),
-      signOut: action(() => {
+      clearJwt: action(() => {
         this.jwt = null;
-        localStorage.removeItem('jwt');
       }),
     });
   }

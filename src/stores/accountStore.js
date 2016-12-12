@@ -3,12 +3,19 @@ import moment from 'moment-timezone';
 
 class AccountStore {
   constructor() {
+    let accounts = localStorage.getItem('accounts');
+    console.log(accounts);
+    if(accounts)
+      accounts = JSON.parse(accounts);
+    else
+      accounts = [];
+
     extendObservable(this, {
-      info: null,
-      error: null,
-      success: null,
-      loading: false,
-      accounts: [],
+      accountInfo: null,
+      accountError: null,
+      accountSuccess: null,
+      accountLoading: false,
+      accounts: observable(accounts),
       timezone: moment.tz.guess(),
       facebookProfile: map(),
       facebookPages: observable([]),
@@ -16,6 +23,9 @@ class AccountStore {
       facebookIds: observable([]),
       setAccounts: action((accounts) => {
         this.accounts = accounts;
+      }),
+      clearAccounts: action(() => {
+        this.accounts = [];
       }),
       setTimezone: action((timezone) => {
         this.timezone = timezone;
@@ -36,10 +46,10 @@ class AccountStore {
         this.facebookIds.remove(id);
       }),
       setAccountError: action((error) => {
-        this.error = error;
+        this.accountError = error;
       }),
       toggleAccountLoading: action(() => {
-        this.loading = !this.loading;
+        this.accountLoading = !this.loading;
       })
     });
   }
