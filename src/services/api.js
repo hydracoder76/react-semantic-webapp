@@ -4,6 +4,13 @@ import accountStore from '../stores/accountStore';
 import { BASE_URL } from '../constants/authentication';
 import axios from 'axios';
 
+function getAxiosInstance(token) {
+  return axios.create({
+    baseURL: BASE_URL,
+    headers: {'Authorization': token}
+  });
+}
+
 export function signUp(formData) {
   /**
    * handle sign up process
@@ -11,13 +18,13 @@ export function signUp(formData) {
    */
   axios.post(`${BASE_URL}/users`, {
     user: formData
-  }).then(function(response){
+  }).then((response) => {
       let message = response.data.status;
       transaction(() => {
         authStore.setSignUpSuccess(message);
         authStore.setSignUpError(null);
       });
-  }).catch(function(error){
+  }).catch((error) => {
       let message = error.response.data.errors;
       transaction(() => {
         authStore.setSignUpSuccess(null);
@@ -34,13 +41,13 @@ export function signIn(formData) {
    */
   axios.post(`${BASE_URL}/users/login`,
     formData
-  ).then(function(response){
+  ).then((response) => {
       let token = response.data.auth_token;
       let accounts = response.data.accounts;
       authStore.setJwt(token);
       accountStore.setAccounts(accounts);
       localStorage.setItem('jwt', token);
-  }).catch(function(error){
+  }).catch((error) => {
       let message = error.response.data.error;
       authStore.setSignInError(message);
   })
@@ -51,7 +58,6 @@ export function facebookSignIn(token) {
    * handle facebook signup and signin
    * sends token to backend and updates view accordingly
    */
-  // console.log("fb token", token);
   if(!token) {
     authStore.setFacebookError("Facebook login could not be completed!");
     return;
@@ -59,14 +65,32 @@ export function facebookSignIn(token) {
 
   axios.post(`${BASE_URL}/users/facebook_login`, {
     token
-  }).then(function(response) {
+  }).then((response) => {
       // console.log("facebook response", response.data);
       let token = response.data.auth_token;
       localStorage.setItem('jwt', token);
       authStore.setJwt(token);
-  }).catch(function(error) {
+  }).catch((error) => {
       // console.log("facebook error", error.response.data);
       let message = error.response.data.error;
       authStore.setFacebookError(message);
-  })
+  });
+}
+
+export function createAccounts({facebookToken, facebookIds}) {
+  accountStore.toggleAccountLoading();
+  let jwt = localStorage.jwt;
+  getAxiosInstance(jwt).post(`${BASE_URL}/accounts`, {
+    facebook_ids: facebookIds,
+    facebook_token: facebookToken
+  }).then((response) => {
+      accountStore.toggleAccountLoading();
+      let accounts = response.data.accounts;
+      accountStore.setAccounts(accounts);
+  }).catch((error) => {
+      accountStore.toggleAccountLoading();
+      let message = error.response.data.error;
+      console.error("got error", message);
+      accountStore.setAccountError(message);
+  });
 }
