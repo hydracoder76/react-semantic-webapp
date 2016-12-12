@@ -147,7 +147,7 @@ const FirstTimeView = observer(class FirstTimeView extends React.Component {
         </Menu>
         <Step.Group fluid items={steps}/>
         {
-          this.props.error?
+          this.props.accountError?
           <Message error>
             Unable to link accounts. If the problem exist please contact us!
           </Message> : ""
@@ -159,7 +159,7 @@ const FirstTimeView = observer(class FirstTimeView extends React.Component {
               {
                 this.isFinishButtonVisible() ?
                 (<Button positive
-                  loading={this.props.loading}
+                  loading={this.props.accountLoading}
                   floated="right"
                   onClick={this.onFinishButtonClick}
                 >
