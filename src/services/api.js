@@ -53,6 +53,13 @@ export function signIn(formData) {
   })
 }
 
+export function signOut() {
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('accounts');
+  authStore.clearJwt();
+  accountStore.clearAccounts();
+}
+
 export function facebookSignIn(token) {
   /**
    * handle facebook signup and signin
@@ -86,11 +93,26 @@ export function createAccounts({facebookToken, facebookIds}) {
   }).then((response) => {
       accountStore.toggleAccountLoading();
       let accounts = response.data.accounts;
+      localStorage.setItem('accounts', JSON.stringify(accounts));
       accountStore.setAccounts(accounts);
   }).catch((error) => {
       accountStore.toggleAccountLoading();
       let message = error.response.data.error;
-      console.error("got error", message);
+      console.error("Error when creating accounts", message);
       accountStore.setAccountError(message);
   });
+}
+
+export function getAccounts(){
+  let jwt = localStorage.jwt;
+  getAxiosInstance(jwt).get(`${BASE_URL}/accounts`
+  ).then((response) => {
+    let accounts = response.data.accounts;
+    accountStore.setAccounts(accounts);
+  }).catch((error) => {
+    let message = error.response.data.error;
+    console.error("Error when fetching accounts", message);
+    accountStore.setAccountError(message);
+  });
+
 }
