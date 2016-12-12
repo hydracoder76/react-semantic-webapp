@@ -40,7 +40,7 @@ class  AuthStore {
       }),
       signOut: action(() => {
         this.jwt = null;
-        localStorage.setItem('jwt', null);
+        localStorage.removeItem('jwt');
       }),
     });
   }

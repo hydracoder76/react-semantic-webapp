@@ -1,7 +1,5 @@
 import { action, extendObservable, map, observable } from 'mobx';
-import moment from 'moment';
-import momentTimezone from 'moment-timezone'; // required
-// import _ from 'lodash';
+import moment from 'moment-timezone';
 
 class AccountStore {
   constructor() {
@@ -9,6 +7,7 @@ class AccountStore {
       info: null,
       error: null,
       success: null,
+      loading: false,
       accounts: [],
       timezone: moment.tz.guess(),
       facebookProfile: map(),
@@ -36,6 +35,12 @@ class AccountStore {
       removeFacebookAccount: action((id) => {
         this.facebookIds.remove(id);
       }),
+      setAccountError: action((error) => {
+        this.error = error;
+      }),
+      toggleAccountLoading: action(() => {
+        this.loading = !this.loading;
+      })
     });
   }
 }
