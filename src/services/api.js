@@ -4,12 +4,14 @@ import accountStore from '../stores/accountStore';
 import { BASE_URL } from '../constants/authentication';
 import axios from 'axios';
 
+
 function getAxiosInstance(token) {
   return axios.create({
     baseURL: BASE_URL,
     headers: {'Authorization': token}
   });
 }
+
 
 export function signUp(formData) {
   /**
@@ -33,6 +35,7 @@ export function signUp(formData) {
   })
 };
 
+
 export function signIn(formData) {
   /**
    * hanlde sign in
@@ -42,22 +45,12 @@ export function signIn(formData) {
   axios.post(`${BASE_URL}/users/login`,
     formData
   ).then((response) => {
-      let token = response.data.auth_token;
-      let accounts = response.data.accounts;
-      authStore.setJwt(token);
-      accountStore.setAccounts(accounts);
-      localStorage.setItem('jwt', token);
+      let { auth_token, accounts } = response.data;
+      handleLoginResponse(auth_token, accounts);
   }).catch((error) => {
       let message = error.response.data.error;
       authStore.setSignInError(message);
   })
-}
-
-export function signOut() {
-  localStorage.removeItem('jwt');
-  localStorage.removeItem('accounts');
-  authStore.clearJwt();
-  accountStore.clearAccounts();
 }
 
 export function facebookSignIn(token) {
@@ -73,16 +66,23 @@ export function facebookSignIn(token) {
   axios.post(`${BASE_URL}/users/facebook_login`, {
     token
   }).then((response) => {
-      // console.log("facebook response", response.data);
-      let token = response.data.auth_token;
-      localStorage.setItem('jwt', token);
-      authStore.setJwt(token);
+      let { auth_token, accounts } = response.data;
+      handleLoginResponse(auth_token, accounts);
   }).catch((error) => {
-      // console.log("facebook error", error.response.data);
+      console.error("Facebook Error: ", error.response.data);
       let message = error.response.data.error;
       authStore.setFacebookError(message);
   });
 }
+
+
+export function signOut() {
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('accounts');
+  authStore.clearJwt();
+  accountStore.clearAccounts();
+}
+
 
 export function createAccounts({facebookToken, facebookIds}) {
   accountStore.toggleAccountLoading();
@@ -103,6 +103,7 @@ export function createAccounts({facebookToken, facebookIds}) {
   });
 }
 
+
 export function getAccounts(){
   let jwt = localStorage.jwt;
   getAxiosInstance(jwt).get(`${BASE_URL}/accounts`
@@ -115,4 +116,20 @@ export function getAccounts(){
     accountStore.setAccountError(message);
   });
 
+}
+
+
+/**
+ * Helper methods
+ * Refactor later to another file
+ */
+
+function handleLoginResponse(token, accounts) {
+  /**
+  * sets token and account to LS and state
+  */
+  authStore.setJwt(token);
+  accountStore.setAccounts(accounts);
+  localStorage.setItem('jwt', token);
+  localStorage.setItem('accounts', JSON.stringify(accounts))
 }
