@@ -23,7 +23,7 @@ class AuthorizedNavbar extends React.Component {
                 <Dropdown.Item icon="trash" text="Clear Queue"/>
                 <Dropdown.Divider />
                 <Dropdown.Header></Dropdown.Header>
-                <Dropdown.Item icon="sign out" text="Logout"/>
+                <Dropdown.Item icon="sign out" text="Logout" onClick={this.props.signOut}/>
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>

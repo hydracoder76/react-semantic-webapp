@@ -19,7 +19,9 @@ class AuthorizedView extends React.Component {
       <div>
         <Sidebar {...this.props}></Sidebar>
         <div style={{marginLeft: 300}}>
-          <Navbar {...this.props}></Navbar>
+          <Navbar {...this.props}
+            signOut={this.props.signOut}
+          />
           <Menu fluid widths={4} attached color="blue">
             <Menu.Item
               name='content'
