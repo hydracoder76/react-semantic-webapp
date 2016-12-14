@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react';
 import UnauthorizedView from './unauthorizedView';
 import AuthorizedView from './authorizedView';
 import FirstTimeView from './firstTimeView';
-import { signIn, signUp } from '../../services/api';
+import { signIn, signUp, signOut } from '../../services/api';
 
 const IndexViewContainer = inject('authStore', 'accountStore')(observer(( { authStore, accountStore }) => {
   // TODO: based on jwt token render the appropriate views.
@@ -14,8 +14,9 @@ const IndexViewContainer = inject('authStore', 'accountStore')(observer(( { auth
       <FirstTimeView { ...accountStore }
       /> :
       <AuthorizedView
-        jwt={authStore.jwt}
-        accounts={accountStore.accounts}
+        { ...accountStore}
+        { ...authStore }
+        signOut={signOut}
       />
     :
     <UnauthorizedView
