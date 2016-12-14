@@ -98,7 +98,7 @@ export function createAccounts({facebookToken, facebookIds}) {
   }).catch((error) => {
       accountStore.toggleAccountLoading();
       let message = error.response.data.error;
-      console.error("Error when creating accounts", message);
+      console.error("Error when creating accounts,", message);
       accountStore.setAccountError(message);
   });
 }
