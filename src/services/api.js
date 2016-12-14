@@ -5,14 +5,6 @@ import { BASE_URL } from '../constants/authentication';
 import axios from 'axios';
 
 
-function getAxiosInstance(token) {
-  return axios.create({
-    baseURL: BASE_URL,
-    headers: {'Authorization': token}
-  });
-}
-
-
 export function signUp(formData) {
   /**
    * handle sign up process
@@ -53,6 +45,7 @@ export function signIn(formData) {
   })
 }
 
+
 export function facebookSignIn(token) {
   /**
    * handle facebook signup and signin
@@ -86,36 +79,41 @@ export function signOut() {
 
 export function createAccounts({facebookToken, facebookIds}) {
   accountStore.toggleAccountLoading();
-  let jwt = localStorage.jwt;
-  getAxiosInstance(jwt).post(`${BASE_URL}/accounts`, {
-    facebook_ids: facebookIds,
-    facebook_token: facebookToken
-  }).then((response) => {
+  post({
+    url: '/accounts',
+    data: {
+      facebook_ids: facebookIds,
+      facebook_token: facebookToken
+    },
+    onSuccess: (data) => {
       accountStore.toggleAccountLoading();
-      let accounts = response.data.accounts;
+      let accounts = data.accounts;
       localStorage.setItem('accounts', JSON.stringify(accounts));
       accountStore.setAccounts(accounts);
-  }).catch((error) => {
+    },
+    onFailure: (data) => {
       accountStore.toggleAccountLoading();
-      let message = error.response.data.error;
-      console.error("Error when creating accounts,", message);
+      let message = data.error;
+      console.error("Error when creating accounts: ", message);
       accountStore.setAccountError(message);
+    }
   });
 }
 
 
-export function getAccounts(){
-  let jwt = localStorage.jwt;
-  getAxiosInstance(jwt).get(`${BASE_URL}/accounts`
-  ).then((response) => {
-    let accounts = response.data.accounts;
-    accountStore.setAccounts(accounts);
-  }).catch((error) => {
-    let message = error.response.data.error;
-    console.error("Error when fetching accounts", message);
-    accountStore.setAccountError(message);
+export function getAccounts() {
+  get({
+    url: '/accounts',
+    onSuccess: (data) => {
+      let accounts = data.accounts;
+      accountStore.setAccounts(accounts);
+    },
+    onFailure: (data) => {
+      let message = data.error;
+      console.error("Error when fetching accounts", message);
+      accountStore.setAccountError(message);
+    }
   });
-
 }
 
 
@@ -123,7 +121,6 @@ export function getAccounts(){
  * Helper methods
  * Refactor later to another file
  */
-
 function handleLoginResponse(token, accounts) {
   /**
   * sets token and account to LS and state
@@ -132,4 +129,60 @@ function handleLoginResponse(token, accounts) {
   accountStore.setAccounts(accounts);
   localStorage.setItem('jwt', token);
   localStorage.setItem('accounts', JSON.stringify(accounts))
+}
+
+
+function get({ url, params, onSuccess, onFailure }) {
+  /**
+   * axios wrapper to make call with Authorization header and baseurl set
+   * @param url :::  string :: relative url to make the post
+   * @param params :: object :: data to be sent
+   * @param onSuccess :: func :: success callback
+   * @param onFailure :: func :: failure callback
+   */
+  let token = localStorage.jwt;
+  axios.request({
+    baseURL: BASE_URL,
+    url: url,
+    headers: {'Authorization': token},
+    method: 'get',
+    params: params,
+  })
+  .then((response) => {
+    onSuccess(response.data);
+  })
+  .catch((error) => {
+    if(error.response.status === 401) {
+      signOut();
+    }
+    onFailure(error.response.data);
+  });
+}
+
+
+function post({ url, data, onSuccess, onFailure }) {
+  /**
+   * axios wrapper to make call with Authorization header and baseurl set
+   * @param url :::  string :: relative url to make the post
+   * @param data :: object :: data to be sent
+   * @param onSuccess :: func :: success callback
+   * @param onFailure :: func :: failure callback
+   */
+  let token = localStorage.jwt;
+  axios.request({
+    baseURL: BASE_URL,
+    url: url,
+    headers: {'Authorization': token},
+    method: 'post',
+    data: data,
+  })
+  .then((response) => {
+    onSuccess(response.data);
+  })
+  .catch((error) => {
+    if(error.response.status === 401) {
+      signOut();
+    }
+    onFailure(error.response.data);
+  });
 }
