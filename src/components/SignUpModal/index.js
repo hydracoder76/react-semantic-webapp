@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button, Divider, Form, Icon, Modal, Message
 } from 'semantic-ui-react';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from '../FacebookLogin';
 
 import { signUp, facebookSignIn } from '../../services/api';
 
@@ -65,7 +65,7 @@ class SignUpModal extends React.Component {
               autoLoad={false}
               fields="name,email,picture"
               callback={this.responseFacebook}
-              scope="public_profile,read_insights,manage_pages,publish_pages,publish_actions"
+              textButton="Facebook"
               cssClass="ui facebook large button"
               icon={<Icon name="facebook" />}
             />

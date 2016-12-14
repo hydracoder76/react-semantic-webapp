@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button, Divider, Form, Icon, Message, Modal
 } from 'semantic-ui-react';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from '../FacebookLogin';
 
 import { signIn, facebookSignIn } from '../../services/api';
 
@@ -48,16 +48,12 @@ class SignInModal extends React.Component {
             <Message error header={this.props.signInError}/> : ""
           }
           <Button.Group fluid>
-            {/*
-              React FacebookLogin login
-              https://www.npmjs.com/package/react-facebook-login
-            */}
             <FacebookLogin
               appId="1339760112701385"
               autoLoad={false}
               fields="name,email,picture"
               callback={this.responseFacebook}
-              scope="public_profile,read_insights,manage_pages,publish_pages,publish_actions"
+              textButton="Facebook"
               cssClass="ui facebook large button"
               icon={<Icon name="facebook" />}
             />
