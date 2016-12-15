@@ -3,7 +3,7 @@ import { Checkbox, Menu,  Input, List, Image} from 'semantic-ui-react';
 
 class Sidebar extends React.Component {
   render () {
-    const activeItem = "home";
+    // const activeItem = "home";
     return(
       <Menu vertical fixed="left" style={{padding: 0, width: 300}}>
         <Menu.Item header as='h1'>Shareito</Menu.Item>

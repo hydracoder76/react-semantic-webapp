@@ -32,22 +32,10 @@ class UnauthorizedNavbar extends React.Component {
         />
         <Menu.Menu position='right'>
           <Menu.Item>
-            <SignUpModal
-              signUpError={this.props.signUpError}
-              signUpSucess={this.props.signUpSucess}
-              facebookError={this.props.facebookError}
-              handleSignUp={this.props.handleSignUp}
-              resetAllMessages={this.props.resetAllMessages}
-
-            />
+            <SignUpModal { ...this.props }/>
           </Menu.Item>
           <Menu.Item>
-            <SignInModal
-              signInError={this.props.signInError}
-              facebookError={this.props.facebookError}
-              handleSignIn={this.props.handleSignIn}
-              resetAllMessages={this.props.resetAllMessages}
-            />
+            <SignInModal {...this.props}/>
           </Menu.Item>
         </Menu.Menu>
       </Menu>

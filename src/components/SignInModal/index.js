@@ -47,15 +47,18 @@ class SignInModal extends React.Component {
             this.props.signInError?
             <Message error header={this.props.signInError}/> : ""
           }
+          {
+            this.props.facebookError?
+            <Message error header={this.props.facebookError}/> : ""
+          }
           <Button.Group fluid>
             <FacebookLogin
+              loading={this.props.facebookLoading}
               appId="1339760112701385"
               autoLoad={false}
               fields="name,email,picture"
-              callback={this.responseFacebook}
               textButton="Facebook"
-              cssClass="ui facebook large button"
-              icon={<Icon name="facebook" />}
+              callback={this.responseFacebook}
             />
             <Button disabled  size="large"  color='twitter'>
               <Icon name='twitter' /> Twitter
@@ -85,6 +88,8 @@ class SignInModal extends React.Component {
           </Button>
           <Button positive type="submit" icon='checkmark'
             labelPosition='right' content='Sign In' form="signin"
+            loading={this.props.signingIn}
+            disabled={this.props.signingIn}
           />
         </Modal.Actions>
       </Modal>
