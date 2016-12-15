@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 import objectToParams from './objectToParams';
+import {
+  Button, Icon
+} from 'semantic-ui-react';
 
 class FacebookLogin extends React.Component {
 
@@ -174,20 +177,18 @@ class FacebookLogin extends React.Component {
   }
 
   render() {
-    const { cssClass, size, icon, textButton, buttonStyle } = this.props;
-    const isIconString = typeof icon === 'string';
+    // const { cssClass, size, icon, textButton, buttonStyle } = this.props;
+    // const isIconString = typeof icon === 'string';
+    const { textButton, loading } = this.props;
     return (
-      <button
-        className={`${cssClass} ${size}`}
-        style={ buttonStyle }
-        onClick={this.click}
-      >
-        {icon && isIconString && (
-          <i className={`fa ${icon}`}></i>
-        )}
-        {icon && !isIconString && icon}
-        {textButton}
-      </button>
+      <Button
+        size='large'
+        color='facebook'
+        loading={loading}
+        disabled={loading}
+        onClick={this.click}>
+        <Icon name='facebook' /> {textButton}
+      </Button>
     );
   }
 }
