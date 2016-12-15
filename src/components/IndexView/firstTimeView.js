@@ -159,6 +159,7 @@ const FirstTimeView = observer(class FirstTimeView extends React.Component {
               {
                 this.isFinishButtonVisible() ?
                 (<Button positive
+                  disabled={this.props.accountLoading}
                   loading={this.props.accountLoading}
                   floated="right"
                   onClick={this.onFinishButtonClick}
