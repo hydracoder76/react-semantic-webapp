@@ -55,5 +55,6 @@ class AccountStore {
 }
 
 const accountStore = new AccountStore();
+
 export default accountStore;
 export { AccountStore }
