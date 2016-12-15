@@ -20,14 +20,9 @@ const IndexViewContainer = inject('authStore', 'accountStore')(observer(( { auth
       />
     :
     <UnauthorizedView
-      jwt={authStore.jwt}
-      signUpError={authStore.signUpError}
-      signUpSuccess={authStore.signUpSuccess}
-      signInError={authStore.signInError}
-      facebookError={authStore.facebookError}
+      { ...authStore }
       handleSignUp={signUp}
       handleSignIn={signIn}
-      resetAllMessages={authStore.resetAllMessages}
     />
   );
 }));

@@ -54,6 +54,10 @@ class SignUpModal extends React.Component {
             this.props.signUpSuccess?
             <Message success header={this.props.signUpSuccess}/> : ""
           }
+          {
+            this.props.facebookError?
+            <Message error header={this.props.facebookError}/> : ""
+          }
 
           <Button.Group fluid>
             {/*
@@ -66,8 +70,7 @@ class SignUpModal extends React.Component {
               fields="name,email,picture"
               callback={this.responseFacebook}
               textButton="Facebook"
-              cssClass="ui facebook large button"
-              icon={<Icon name="facebook" />}
+              loading={this.props.facebookLoading}
             />
             <Button disabled  size="large"  color='twitter'>
               <Icon name='twitter' /> Twitter
@@ -106,6 +109,8 @@ class SignUpModal extends React.Component {
           </Button>
           <Button positive type="submit" icon='checkmark'
             labelPosition='right' content='Sign Up' form="signup"
+            loading={this.props.signingUp}
+            disabled={this.props.signingUp}
           />
         </Modal.Actions>
       </Modal>

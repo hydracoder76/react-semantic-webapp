@@ -4,7 +4,6 @@ import moment from 'moment-timezone';
 class AccountStore {
   constructor() {
     let accounts = localStorage.getItem('accounts');
-    console.log(accounts);
     if(accounts)
       accounts = JSON.parse(accounts);
     else

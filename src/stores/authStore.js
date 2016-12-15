@@ -9,6 +9,9 @@ class  AuthStore {
       signUpSuccess: null,
       signInError: null,
       facebookError: null,
+      facebookLoading: false,
+      signingIn: false,
+      signingUp: false,
       setJwt: action((token) => {
         this.jwt = token;
       }),
@@ -41,6 +44,15 @@ class  AuthStore {
       clearJwt: action(() => {
         this.jwt = null;
       }),
+      toggleFacebookLoading: action(() => {
+        this.facebookLoading = !this.facebookLoading;
+      }),
+      toggleSigningIn: action(() => {
+        this.signingIn = !this.signingIn;
+      }),
+      toggleSigningUp: action(() => {
+        this.signingUp = !this.signingUp;
+      })
     });
   }
 }
