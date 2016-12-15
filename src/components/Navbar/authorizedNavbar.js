@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  Dropdown, Menu, Icon
+  Dropdown, Menu
 } from 'semantic-ui-react';
 
 class AuthorizedNavbar extends React.Component {

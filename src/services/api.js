@@ -10,19 +10,23 @@ export function signUp(formData) {
    * handle sign up process
    * sets appropirate messages
    */
+
+  authStore.toggleSigningUp();
   axios.post(`${BASE_URL}/users`, {
     user: formData
   }).then((response) => {
       let message = response.data.status;
       transaction(() => {
-        authStore.setSignUpSuccess(message);
+        authStore.setSignUpSuccess(message + ". Please confirm your email before logging in!");
         authStore.setSignUpError(null);
+        authStore.toggleSigningUp();
       });
   }).catch((error) => {
       let message = error.response.data.errors;
       transaction(() => {
         authStore.setSignUpSuccess(null);
         authStore.setSignUpError(message);
+        authStore.toggleSigningUp();
       });
   })
 };
@@ -34,14 +38,17 @@ export function signIn(formData) {
    * sets jwt to local storage
    * sets jwt to store and flash messages
    */
+  authStore.toggleSigningIn();
   axios.post(`${BASE_URL}/users/login`,
     formData
   ).then((response) => {
       let { auth_token, accounts } = response.data;
       handleLoginResponse(auth_token, accounts);
+      authStore.toggleSigningIn();
   }).catch((error) => {
       let message = error.response.data.error;
       authStore.setSignInError(message);
+      authStore.toggleSigningIn();
   })
 }
 
@@ -56,15 +63,18 @@ export function facebookSignIn(token) {
     return;
   }
 
+  authStore.toggleFacebookLoading();
   axios.post(`${BASE_URL}/users/facebook_login`, {
     token
   }).then((response) => {
       let { auth_token, accounts } = response.data;
       handleLoginResponse(auth_token, accounts);
+      authStore.toggleFacebookLoading();
   }).catch((error) => {
-      console.error("Facebook Error: ", error.response.data);
-      let message = error.response.data.error;
+      let message = `Facebook Error: ${error.response.data.error}, please check your internet connection!`
+      console.error(message);
       authStore.setFacebookError(message);
+      authStore.toggleFacebookLoading();
   });
 }
 
