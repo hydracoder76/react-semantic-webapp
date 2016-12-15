@@ -196,3 +196,8 @@ function post({ url, data, onSuccess, onFailure }) {
     onFailure(error.response.data);
   });
 }
+
+// If user is logged in, try to get accounts to keep the view in sync
+if(localStorage.getItem('jwt')) {
+  getAccounts();
+}
