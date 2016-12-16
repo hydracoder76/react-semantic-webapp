@@ -5,7 +5,8 @@ import AuthorizedView from './authorizedView';
 import FirstTimeView from './firstTimeView';
 import { signIn, signUp, signOut } from '../../services/api';
 
-const IndexViewContainer = inject('authStore', 'accountStore')(observer(( { authStore, accountStore }) => {
+const IndexViewContainer = inject('authStore', 'accountStore', 'postStore')(observer(
+  ( { authStore, accountStore, postStore }) => {
   // TODO: based on jwt token render the appropriate views.
 
   return(
@@ -16,6 +17,7 @@ const IndexViewContainer = inject('authStore', 'accountStore')(observer(( { auth
       <AuthorizedView
         { ...accountStore}
         { ...authStore }
+        { ...postStore }
         signOut={signOut}
       />
     :
