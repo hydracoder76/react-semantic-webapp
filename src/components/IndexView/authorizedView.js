@@ -2,8 +2,9 @@ import React from 'react'
 import { Container, Form, Menu,  Icon} from 'semantic-ui-react';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
+import { observer } from 'mobx-react';
 
-class AuthorizedView extends React.Component {
+const AuthorizedView = observer(class AuthorizedView extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -19,9 +20,7 @@ class AuthorizedView extends React.Component {
       <div>
         <Sidebar {...this.props}></Sidebar>
         <div style={{marginLeft: 300}}>
-          <Navbar {...this.props}
-            signOut={this.props.signOut}
-          />
+          <Navbar {...this.props} />
           <Menu fluid widths={4} attached color="blue">
             <Menu.Item
               name='content'
@@ -75,6 +74,6 @@ class AuthorizedView extends React.Component {
       </div>
     )
   }
-}
+})
 
 export default AuthorizedView;

@@ -12,3 +12,7 @@
 .sidebar-subtext {
   font-size: 60%;
 }
+
+.sidebar-heading {
+  margin: 0;
+}
