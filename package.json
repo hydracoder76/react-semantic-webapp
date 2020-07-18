@@ -9,7 +9,7 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^0.19.2",
     "loadash": "0.0.1",
     "mobx": "^2.6.2",
     "mobx-react": "^3.5.9",
