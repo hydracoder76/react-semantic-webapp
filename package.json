@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "eslint": "^3.9.1",
+    "eslint": "^7.4.0",
     "eslint-config-google": "^0.7.0",
     "mobx-react-devtools": "^4.2.9",
     "react-scripts": "0.7.0"
